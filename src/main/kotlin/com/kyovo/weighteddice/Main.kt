@@ -1,6 +1,9 @@
-package com.kyovo.weigtheddice
+package com.kyovo.weighteddice
 
-import com.kyovo.weigtheddice.model.*
+import com.kyovo.weighteddice.application.service.RollService
+import com.kyovo.weighteddice.domain.model.*
+import com.kyovo.weighteddice.domain.ports.primary.Roller
+import com.kyovo.weighteddice.infrastructure.adapters.DefaultRollGenerator
 
 fun main() {
     val probabilities = Faces(
@@ -14,5 +17,7 @@ fun main() {
 
     val weightedDice = WeightedDice(probabilities)
 
-    println("Rolled ${weightedDice.roll().print()}")
+    val rollService: Roller = RollService(DefaultRollGenerator())
+
+    println("Rolled ${rollService.roll(weightedDice).print()}")
 }

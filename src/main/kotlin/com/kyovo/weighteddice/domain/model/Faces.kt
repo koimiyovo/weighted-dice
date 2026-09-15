@@ -1,4 +1,4 @@
-package com.kyovo.weigtheddice.model
+package com.kyovo.weighteddice.domain.model
 
 data class Faces(
     val face1: Face,

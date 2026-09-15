@@ -1,4 +1,4 @@
-package com.kyovo.weigtheddice.model
+package com.kyovo.weighteddice.domain.model
 
 data class Face(val number: FaceNumber, val probability: Probability) {
     fun print(): String {
