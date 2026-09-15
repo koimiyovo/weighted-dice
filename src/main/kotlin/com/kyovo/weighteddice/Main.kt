@@ -1,7 +1,9 @@
 package com.kyovo.weighteddice
 
+import com.kyovo.weighteddice.application.service.ContinuousRollService
 import com.kyovo.weighteddice.application.service.RollService
 import com.kyovo.weighteddice.domain.model.*
+import com.kyovo.weighteddice.domain.ports.primary.ContinuousRoller
 import com.kyovo.weighteddice.domain.ports.primary.Roller
 import com.kyovo.weighteddice.infrastructure.adapters.DefaultRollGenerator
 
@@ -17,7 +19,29 @@ fun main() {
 
     val weightedDice = WeightedDice(probabilities)
 
-    val rollService: Roller = RollService(DefaultRollGenerator())
+    val roller: Roller = RollService(DefaultRollGenerator())
 
-    println("Rolled ${rollService.roll(weightedDice).print()}")
+    rollUntilStopped(roller, weightedDice)
+//    rollOnce(roller, weightedDice)
+}
+
+private fun rollUntilStopped(roller: Roller, weightedDice: WeightedDice) {
+    val continuousRoller: ContinuousRoller = ContinuousRollService(roller)
+
+    println("Press Enter to stop the roll...")
+
+    continuousRoller.startRolling(weightedDice, delayMillis = 100) { face ->
+        print("\rCurrent face: ${face.number.value}   ")
+    }
+
+    readlnOrNull() // Blocks until the user presses Enter.
+
+    val lastFace = continuousRoller.stopRolling()
+
+    println()
+    println("Last face rolled: ${lastFace.print()}")
+}
+
+private fun rollOnce(roller: Roller, weightedDice: WeightedDice) {
+    println("Rolled ${roller.roll(weightedDice).print()}")
 }
