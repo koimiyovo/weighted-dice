@@ -1,12 +1,12 @@
 package com.kyovo.weigtheddice.model
 
-data class FaceProbabilities(
-    val face1: FaceOne,
-    val face2: FaceTwo,
-    val face3: FaceThree,
-    val face4: FaceFour,
-    val face5: FaceFive,
-    val face6: FaceSix
+data class Faces(
+    val face1: Face,
+    val face2: Face,
+    val face3: Face,
+    val face4: Face,
+    val face5: Face,
+    val face6: Face
 ) : Iterable<Face> {
     override fun iterator(): Iterator<Face> {
         return listOf(face1, face2, face3, face4, face5, face6).iterator()
